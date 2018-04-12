@@ -2,7 +2,7 @@
 -author('labihbc@gmail.com').
 -include("sat_erlang.hrl").
 
--export([copy/2, clone/1, perp/1, rotate/2, reverse/1, normalize/1, add/2, sub/2, scale/3, project/2, projectN/2, reflect/2, reflectN/2, dot/2, len2/1, len/1]).
+-export([init/2, copy/2, clone/1, perp/1, rotate/2, reverse/1, normalize/1, add/2, sub/2, scale/3, project/2, projectN/2, reflect/2, reflectN/2, dot/2, len2/1, len/1]).
 
 init(X, Y) ->
 	?'#vector'#{x := X, y := Y}.
@@ -39,7 +39,11 @@ sub(#{x := AX, y := AY} , V = #{x := BX, y := BY}) ->
 	V#{ x := BX - AX, y := BY - AY}.
 
 scale(X, Y, VB = #{x := BX, y := BY}) ->
-	VB#{x := X * BX , y := BY * (Y orelse X )}.
+	Y2 = case Y == 0 of
+		true -> X;
+		false -> Y
+	end,
+	VB#{x := X * BX , y := BY * Y2}.
 
 project(VA = #{x := AX, y := AY}, VB) ->
 	Amt = dot(VA, VB) / len2(VA),
