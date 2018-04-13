@@ -17,6 +17,6 @@ test_circle_polygon() ->
 
 test_polygon_polygon() ->
 	application:start(sat_erlang),
-	Polygon1 = sat_erlang_polygon:init(sat_erlang_vector:init(30, 0), [sat_erlang_vector:init(0, 0), sat_erlang_vector:init(40, 0), sat_erlang_vector:init(40,40), sat_erlang_vector:init(0, 40) ]),
+	Polygon1 = sat_erlang_polygon:init(sat_erlang_vector:init(60, 0), [sat_erlang_vector:init(0, 0), sat_erlang_vector:init(40, 0), sat_erlang_vector:init(40,40), sat_erlang_vector:init(0, 40) ]),
 	Polygon2 = sat_erlang_polygon:init(sat_erlang_vector:init(30, 0), [sat_erlang_vector:init(0, 0), sat_erlang_vector:init(30, 0), sat_erlang_vector:init(0,30)]),
 	sat_erlang:testPolygonPolygon(Polygon1, Polygon2).

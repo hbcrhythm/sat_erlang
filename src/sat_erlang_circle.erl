@@ -7,6 +7,6 @@
 init(Pos, R) ->
 	?'#circle'#{pos := Pos, r := R}.
 
-getAABB(C = #{r := R, pos := Pos}) ->
+getAABB(#{r := R, pos := Pos}) ->
 	Corner = sat_erlang_vector:sub(sat_erlang_vector:init(R, R), sat_erlang_vector:clone(Pos)),
 	sat_erlang_box:toPolygon(sat_erlang_box:init(Corner, R * 2, R * 2)).

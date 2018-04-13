@@ -12,7 +12,6 @@
 
 testCircleCircle(A = #{pos := APos, r := AR}, B = #{pos := #{x := BX, y := BY}, r := BR}) ->
 	DifferenceV = sat_erlang_vector:sub(APos, sat_erlang_vector:init(BX, BY)),
-	io:format("sssss ~w ~n~n",[DifferenceV]),
 	TotalRadius = AR + BR,
 	TotalRadiusSq = TotalRadius * TotalRadius,
 	DistanceSq = sat_erlang_vector:len2(DifferenceV),
@@ -54,7 +53,6 @@ testPolygonCircle(Polygon = #{pos := PPos, calcPoints := Points, edges := Edges 
 				end,
 
 				Region = voronoiRegion(Edge, Point),
-				io:format("region ~w ~n",[Region]),
 				{Responese3, OverlapN2, Overlap2, Tag} = if
 					Region =:= ?LEFT_VORONOI_REGION ->
 						
@@ -119,7 +117,6 @@ testPolygonCircle(Polygon = #{pos := PPos, calcPoints := Points, edges := Edges 
 				end
 	end,
 	{Responese4 = #{overlapN := OverlapN3, overlap := Overlap3}, _} = lists:foldl(F, {?'#response', true}, lists:seq(1, Len)),
-	io:format("Responese4 ~w ~n",[Responese4]),
 	Responese4#{a := Polygon, b := Circle, overlapV := sat_erlang_vector:scale(Overlap3, 0, OverlapN3)}.
 
 testCirclePolygon(Circle, Polygon) ->
@@ -143,7 +140,6 @@ testPolygonPolygon(A = #{calcPoints := ACalcPoints, pos := APos, normals := ANor
 			end
 	end,
 	{Responese2, _, Tag} = lists:foldl(FA, {?'#response', ANormals, true}, lists:seq(1, ALen)),
-	io:format("Responese2 ==== ~p",[Responese2]),
 	case Tag of
 		false ->
 			Responese2#{isCollide := false};
@@ -176,7 +172,6 @@ isSeparatingAxis(APos, BPos, APoints, BPoints, Axis, Responese) ->
 
 			{Overlap3, Responese3 = #{overlap := ROverlap}} = case RangeAOne < RangeBOne2 of
 				true ->
-					io:format("aaaaaaaaaa ~n"),
 					Responese2 = Responese#{aInB := false},
 					case RangeATwo < RangeBTwo2 of
 						true ->
@@ -188,7 +183,6 @@ isSeparatingAxis(APos, BPos, APoints, BPoints, Axis, Responese) ->
 							{iF(Option1 < Option2 , Option1 , -Option2), Responese2}
 					end;
 				false ->
-				io:format("vvvv ~n"),
 					Responese2 = Responese#{bInA := false},
 					case RangeATwo > RangeBTwo2 of
 						true ->
@@ -204,10 +198,6 @@ isSeparatingAxis(APos, BPos, APoints, BPoints, Axis, Responese) ->
 			AbsOverlap = abs(Overlap3),
 			case AbsOverlap < ROverlap of
 				true ->
-					io:format("AbsOverlap ~p ~n",[AbsOverlap]),
-					io:format("response "),
-					io:format(" ~p ~n", [Responese3]),
-
 					OverlapN = case Overlap3 < 0 of
 						true ->
 							sat_erlang_vector:reverse(Axis);
