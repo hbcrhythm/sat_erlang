@@ -4,11 +4,22 @@
 -include("sat_erlang.hrl").
 
 %% API exports
--export([testCircleCircle/2, testPolygonCircle/2, testCirclePolygon/2, testPolygonPolygon/2]).
+-export([pointInCircle/2, pointInPolygon/2, testCircleCircle/2, testPolygonCircle/2, testCirclePolygon/2, testPolygonPolygon/2]).
 
 %%====================================================================
 %% API functions
 %%====================================================================
+
+pointInCircle(P = #{}, #{pos := CPos, r := Cr}) ->
+	DifferenceV = sat_erlang_vector:sub(CPos, P),	
+	RadiusSq = Cr * Cr,
+	DistanceSq = sat_erlang_vector:len2(DifferenceV),
+	DistanceSq =< RadiusSq.
+
+pointInPolygon(P, PolygonB) ->
+	Polygon1 = sat_erlang_box:toPolygon( sat_erlang_box:init(sat_erlang_vector:init(0,0), 0, 0) ) ,
+	Polygon2 = Polygon1#{pos := P},
+	testPolygonPolygon(Polygon2, PolygonB).
 
 testCircleCircle(A = #{pos := APos, r := AR}, B = #{pos := #{x := BX, y := BY}, r := BR}) ->
 	DifferenceV = sat_erlang_vector:sub(APos, sat_erlang_vector:init(BX, BY)),

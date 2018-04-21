@@ -13,6 +13,7 @@
 
 -define('#box', #{
 		mod 	=> box
+		,pos  	=> ?'#vector'
 		,w	 	=> 0
 		,h		=> 0
 	}).
